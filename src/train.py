@@ -25,7 +25,7 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 # -------------------- LOAD DATA --------------------
 dataset = EEGGraphDataset(DATA_PATH)
 
-# 🔥 -------------------- BALANCE DATA (IMPORTANT) --------------------
+# -------------------- BALANCE DATA (IMPORTANT) --------------------
 indices = list(range(len(dataset)))
 random.shuffle(indices)
 
