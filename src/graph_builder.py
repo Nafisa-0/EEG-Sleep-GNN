@@ -57,7 +57,7 @@ def map_label(desc):
 def find_hypnogram(psg_file, all_files):
     base = psg_file.split("-PSG.edf")[0]
 
-    prefix = base[:-1]  # 🔥 remove last char (E0 → E)
+    prefix = base[:-1]  
 
     for f in all_files:
         if f.startswith(prefix) and "Hypnogram" in f:
