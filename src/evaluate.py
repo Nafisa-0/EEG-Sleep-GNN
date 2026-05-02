@@ -1,5 +1,6 @@
 import os
 import torch
+<<<<<<< Updated upstream
 import numpy as np
 from torch_geometric.loader import DataLoader
 from sklearn.metrics import f1_score, confusion_matrix, classification_report
@@ -65,3 +66,29 @@ for i, name in enumerate(STAGE_NAMES):
     print(f"  {name}: {per_class[i]:.4f}  ({per_class[i]*100:.1f}%)")
     
     
+=======
+from sklearn.metrics import accuracy_score, f1_score, confusion_matrix
+
+def evaluate(model, loader, device):
+    model.eval()
+
+    y_true = []
+    y_pred = []
+
+    with torch.no_grad():
+        for batch in loader:
+            batch = [g.to(device) for g in batch]
+
+            for seq in batch:
+                out = model(seq)
+                pred = out.argmax(dim=1)
+
+                y_true.extend(seq.y.cpu().numpy())
+                y_pred.extend(pred.cpu().numpy())
+
+    acc = accuracy_score(y_true, y_pred)
+    f1 = f1_score(y_true, y_pred, average='weighted')
+    cm = confusion_matrix(y_true, y_pred)
+
+    return acc, f1, cm
+>>>>>>> Stashed changes

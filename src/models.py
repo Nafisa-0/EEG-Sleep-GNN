@@ -3,10 +3,22 @@ import torch.nn.functional as F
 from torch_geometric.nn import global_mean_pool, global_add_pool
 from layers import GATBlock
 
+<<<<<<< Updated upstream
 
 class SleepGNN(torch.nn.Module):
     """
     GAT sleep stage classifier.
+=======
+class Model(torch.nn.Module):
+    def __init__(self, num_features, num_classes):
+        super().__init__()
+
+        self.conv1 = GATConv(num_features, 64, heads=4)
+        self.conv2 = GATConv(64*4, 128)
+        self.conv3 = GATConv(128, 128, heads=1)
+
+        self.lstm = torch.nn.LSTM(128, 128, num_layers=2, batch_first=True, dropout=0.3)
+>>>>>>> Stashed changes
 
     Architecture:
         GATBlock 1: num_features → hidden*heads  (multi-head, concat)
@@ -35,9 +47,9 @@ class SleepGNN(torch.nn.Module):
         self.bn_out = torch.nn.BatchNorm1d(hidden // 2)
         self.lin2   = torch.nn.Linear(hidden // 2, num_classes)
 
-    def forward(self, data):
-        x, edge_index, batch = data.x, data.edge_index, data.batch
+    def forward(self, graph_seq):
 
+<<<<<<< Updated upstream
         x = self.block1(x, edge_index)
         x = self.block2(x, edge_index)
         x = self.block3(x, edge_index)
@@ -47,3 +59,24 @@ class SleepGNN(torch.nn.Module):
         x = F.elu(self.bn_out(self.lin1(x)))
         x = F.dropout(x, p=self.dropout_p, training=self.training)
         return self.lin2(x)
+=======
+        x, edge_index, batch = graph_seq.x, graph_seq.edge_index, graph_seq.batch
+    
+        x = F.elu(self.conv1(x, edge_index))
+        x = F.dropout(x, p=self.dropout, training=self.training)
+    
+        x = F.elu(self.conv2(x, edge_index))
+        x = F.dropout(x, p=self.dropout, training=self.training)
+    
+        x = F.elu(self.conv3(x, edge_index))
+        x = F.dropout(x, p=self.dropout, training=self.training)
+    
+        x = global_mean_pool(x, batch)
+    
+        x = x.unsqueeze(1)
+    
+        out, _ = self.lstm(x)
+        out = out[:, -1, :]
+    
+        return self.lin(out)
+>>>>>>> Stashed changes

@@ -1,8 +1,17 @@
 import os
 
+<<<<<<< Updated upstream
 VERSION = "v1"
 
 RAW_PATH        = r"D:\EEG-Sleep-GNN\data\raw\sleep-edf-database-expanded-1.0.0\sleep-cassette"
+=======
+BATCH_SIZE = 32
+LR = 0.0003
+EPOCHS = 20
+
+NUM_CLASSES = 4
+DROPOUT = 0.4
+>>>>>>> Stashed changes
 
 GRAPH_PATH      = r"D:\EEG-Sleep-GNN\graphs\processed"
 MODEL_DIR       = r"D:\EEG-Sleep-GNN\outputs\models"
